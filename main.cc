@@ -17,11 +17,11 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "BagFromImages");
+    ros::init(argc, argv, "bagfromimages");
 
     if(argc!=5)
     {
-        cerr << "Usage: rosrun BagFromImages BagFromImages <path to image directory> <image extension .ext> <frequency> <path to output bag>" << endl;
+        cerr << "Usage: rosrun bagfromimages bagfromimages <path to image directory> <image extension .ext> <frequency> <path to output bag>" << endl;
         return 0;
     }
 
@@ -52,9 +52,9 @@ int main(int argc, char **argv)
         cv::Mat im = cv::imread(filenames[i],CV_LOAD_IMAGE_COLOR);
         cv_bridge::CvImage cvImage;
         cvImage.image = im;
-        cvImage.encoding = sensor_msgs::image_encodings::RGB8;
+        cvImage.encoding = sensor_msgs::image_encodings::BGR8;
         cvImage.header.stamp = t;
-        bag_out.write("/camera/image_raw",ros::Time(t),cvImage.toImageMsg());
+        bag_out.write("/camera/image",ros::Time(t),cvImage.toImageMsg());
         t+=d;
         cout << i << " / " << filenames.size() << endl;
     }
